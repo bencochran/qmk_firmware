@@ -65,7 +65,7 @@ void suspend_wakeup_init_user(void) {
 
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
-    led_animation_id = 7;
+    led_animation_id = 8;
     led_lighting_mode = LED_MODE_KEYS_ONLY;
 };
 
