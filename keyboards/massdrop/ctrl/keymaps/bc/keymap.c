@@ -18,7 +18,8 @@ enum ctrl_keycodes {
     DBG_MTRX,           //DEBUG Toggle Matrix Prints                                //
     DBG_KBD,            //DEBUG Toggle Keyboard Prints                              //
     DBG_MOU,            //DEBUG Toggle Mouse Prints                                 //
-    MD_BOOT             //Restart into bootloader after hold timeout                //Working
+    MD_BOOT,            //Restart into bootloader after hold timeout                //Working
+    SND_SLEEP           // Send sleep ctrl + shit + power to the computer
 };
 
 #define TG_NKRO MAGIC_TOGGLE_NKRO //Toggle 6KRO / NKRO mode
@@ -35,7 +36,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL, KC_LALT, KC_LGUI,                   KC_SPC,                             KC_RGUI, KC_RALT, KC_RCTL, MO(1),              KC_LEFT, KC_DOWN, KC_RGHT \
     ),
     [1] = LAYOUT(
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,            KC_MUTE, _______, _______, \
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,            KC_MUTE, _______, SND_SLEEP, \
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,   KC_MPLY, KC_MSTP, KC_VOLU, \
         L_T_BR,  L_PSD,   L_BRI,   L_PSI,   _______, _______, _______, _______, U_T_AGCR,_______, _______, _______, _______, _______,   KC_MPRV, KC_MNXT, KC_VOLD, \
         L_T_PTD, L_PTP,   L_BRD,   L_PTN,   _______, _______, _______, _______, _______, _______, _______, _______, _______, \
@@ -188,6 +189,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 if (timer_elapsed32(key_timer) >= 500) {
                     reset_keyboard();
                 }
+            }
+            return false;
+        case SND_SLEEP:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LCTRL) SS_DOWN(X_LSHIFT) SS_DOWN(X_POWER) SS_UP(X_POWER) SS_UP(X_LSHIFT) SS_UP(X_LCTRL));
             }
             return false;
         default:
