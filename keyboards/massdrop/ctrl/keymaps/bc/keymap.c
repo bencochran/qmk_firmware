@@ -204,8 +204,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 led_instruction_t led_instructions[] = {
     //Please see ../default_md/keymap.c for examples
 
-    //All LEDs use the user's selected pattern (this is the factory default)
-     { .flags = LED_FLAG_USE_ROTATE_PATTERN },
+   //All LEDs use the user's selected pattern (this is the factory default)
+    { .flags = LED_FLAG_USE_ROTATE_PATTERN },
+   //Red sleep button on layer 1
+    { .flags = LED_FLAG_MATCH_ID | LED_FLAG_MATCH_LAYER | LED_FLAG_USE_RGB, .id0 = 0x00008000, .r = 255, .layer = 1 },
 
     //end must be set to 1 to indicate end of instruction set
      { .end = 1 }
